@@ -7,6 +7,8 @@ import type {
   CameraPreviewFlashMode,
   CameraSampleOptions,
   CameraOpacityOptions,
+  CameraPreviewExposureMode,
+  CameraPreviewWhiteBalanceMode,
 } from './definitions';
 
 export class CameraPreviewWeb extends WebPlugin implements CameraPreviewPlugin {
@@ -103,6 +105,18 @@ export class CameraPreviewWeb extends WebPlugin implements CameraPreviewPlugin {
   }
 
   async stopRecordVideo(): Promise<{}> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
+  async getSupportedPictureSizes(): Promise<{ result: { width: number; height: number; }[]; }> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
+  async getExposureModes(): Promise<{ result: CameraPreviewExposureMode[]; }> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
+  async getSupportedWhiteBalanceModes(): Promise<{ result: CameraPreviewWhiteBalanceMode[]; }> {
     throw this.unimplemented('Not implemented on web.');
   }
 

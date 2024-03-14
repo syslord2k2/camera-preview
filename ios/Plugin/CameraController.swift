@@ -279,6 +279,89 @@ extension CameraController {
         self.sampleBufferCaptureCompletionBlock = completion
     }
 
+    func getSupportedWhiteBalanceModes() throws -> [String] {
+        var currentCamera: AVCaptureDevice?
+        switch currentCameraPosition {
+        case .front:
+            currentCamera = self.frontCamera!
+        case .rear:
+            currentCamera = self.rearCamera!
+        default: break
+        }
+
+        guard
+            let device = currentCamera
+        else {
+            throw CameraControllerError.noCamerasAvailable
+        }
+
+        var supportedWhiteBalanceModesAsStrings: [String] = []
+        if device.isWhiteBalanceModeSupported(AVCaptureDevice.WhiteBalanceMode.autoWhiteBalance) {
+            supportedWhiteBalanceModesAsStrings.append("auto")
+        }
+        if device.isWhiteBalanceModeSupported(AVCaptureDevice.WhiteBalanceMode.locked) {
+            supportedWhiteBalanceModesAsStrings.append("locked")
+        }
+        if device.isWhiteBalanceModeSupported(AVCaptureDevice.WhiteBalanceMode.continuousAutoWhiteBalance) {
+            supportedWhiteBalanceModesAsStrings.append("continuousAuto")
+        }
+        return supportedWhiteBalanceModesAsStrings
+    }
+
+    func getSupportedPictureSizes() throws -> [String] {
+        var currentCamera: AVCaptureDevice?
+        switch currentCameraPosition {
+        case .front:
+            currentCamera = self.frontCamera!
+        case .rear:
+            currentCamera = self.rearCamera!
+        default: break
+        }
+
+        guard
+            let device = currentCamera
+        else {
+            throw CameraControllerError.noCamerasAvailable
+        }
+
+        var supportedPictureSizesAsStrings: [String] = []
+        for format in device.formats {
+            let formatDescription = format.formatDescription
+            let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
+            supportedPictureSizesAsStrings.append("\(dimensions.width)x\(dimensions.height)")
+        }
+        return supportedPictureSizesAsStrings
+    }
+
+    func getExposureModes() throws -> [String] {
+        var currentCamera: AVCaptureDevice?
+        switch currentCameraPosition {
+        case .front:
+            currentCamera = self.frontCamera!
+        case .rear:
+            currentCamera = self.rearCamera!
+        default: break
+        }
+
+        guard
+            let device = currentCamera
+        else {
+            throw CameraControllerError.noCamerasAvailable
+        }
+
+        var supportedExposureModesAsStrings: [String] = []
+        if device.isExposureModeSupported(AVCaptureDevice.ExposureMode.locked) {
+            supportedExposureModesAsStrings.append("locked")
+        }
+        if device.isExposureModeSupported(AVCaptureDevice.ExposureMode.autoExpose) {
+            supportedExposureModesAsStrings.append("auto")
+        }
+        if device.isExposureModeSupported(AVCaptureDevice.ExposureMode.continuousAutoExposure) {
+            supportedExposureModesAsStrings.append("continuousAuto")
+        }
+        return supportedExposureModesAsStrings
+    }
+
     func getSupportedFlashModes() throws -> [String] {
         var currentCamera: AVCaptureDevice?
         switch currentCameraPosition {

@@ -76,6 +76,15 @@ export class CameraPreviewWeb extends WebPlugin {
     async stopRecordVideo() {
         throw this.unimplemented('Not implemented on web.');
     }
+    async getSupportedPictureSizes() {
+        throw this.unimplemented('Not implemented on web.');
+    }
+    async getExposureModes() {
+        throw this.unimplemented('Not implemented on web.');
+    }
+    async getSupportedWhiteBalanceModes() {
+        throw this.unimplemented('Not implemented on web.');
+    }
     async stop() {
         const video = document.getElementById('video');
         if (video) {

@@ -140,6 +140,77 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
     }
 
     @PluginMethod
+    public void getSupportedPictureSizes(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+        List<Camera.Size> supportedPictureSizes = params.getSupportedPictureSizes();
+        JSONArray jsonSupportedPictureSizes = new JSONArray();
+        for (int i = 0; i < supportedPictureSizes.size(); i++) {
+            Camera.Size size = supportedPictureSizes.get(i);
+            JSObject jsonSize = new JSObject();
+            jsonSize.put("width", size.width);
+            jsonSize.put("height", size.height);
+            jsonSupportedPictureSizes.put(jsonSize);
+        }
+        JSObject jsObject = new JSObject();
+        jsObject.put("result", jsonSupportedPictureSizes);
+        call.resolve(jsObject);
+    }
+
+    @PluginMethod
+    public void getSupportedWhiteBalanceModes(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+        List<String> supportedWhiteBalanceModes;
+        supportedWhiteBalanceModes = params.getSupportedWhiteBalance();
+        JSONArray jsonWhiteBalanceModes = new JSONArray();
+
+        if (supportedWhiteBalanceModes != null) {
+            for (int i = 0; i < supportedWhiteBalanceModes.size(); i++) {
+                jsonWhiteBalanceModes.put(new String(supportedWhiteBalanceModes.get(i)));
+            }
+        }
+
+        JSObject jsObject = new JSObject();
+        jsObject.put("result", jsonWhiteBalanceModes);
+        call.resolve(jsObject);
+    }
+
+    @PluginMethod
+    public void getExposureModes(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+        List<String> exposureModes;
+        exposureModes = params.getSupportedFocusModes();
+        JSONArray jsonExposureModes = new JSONArray();
+
+        if (exposureModes != null) {
+            for (int i = 0; i < exposureModes.size(); i++) {
+                jsonExposureModes.put(new String(exposureModes.get(i)));
+            }
+        }
+
+        JSObject jsObject = new JSObject();
+        jsObject.put("result", jsonExposureModes);
+        call.resolve(jsObject);
+    }
+
+    @PluginMethod
     public void getSupportedFlashModes(PluginCall call) {
         if (this.hasCamera(call) == false) {
             call.reject("Camera is not running");

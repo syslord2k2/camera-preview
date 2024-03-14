@@ -1,4 +1,6 @@
 export type CameraPosition = 'rear' | 'front';
+export type CameraPreviewExposureMode = 'lock' | 'auto' | 'continuous' | 'custom';
+export type CameraPreviewWhiteBalanceMode = 'lock' | 'auto'  | 'continuous' | 'incandescent' | 'cloudy-daylight' | 'daylight' | 'fluorescent' | 'shade' | 'twilight' | 'warm-fluorescent';
 export interface CameraPreviewOptions {
   /** Parent element to attach the video preview element to (applicable to the web platform only) */
   parent?: string;
@@ -67,6 +69,15 @@ export interface CameraPreviewPlugin {
   captureSample(options: CameraSampleOptions): Promise<{ value: string }>;
   getSupportedFlashModes(): Promise<{
     result: CameraPreviewFlashMode[];
+  }>;
+  getSupportedPictureSizes(): Promise<{
+    result: { width: number; height: number }[];
+  }>;
+  getExposureModes(): Promise<{
+    result: CameraPreviewExposureMode[];
+  }>;
+  getSupportedWhiteBalanceModes(): Promise<{
+    result: CameraPreviewWhiteBalanceMode[];
   }>;
   setFlashMode(options: { flashMode: CameraPreviewFlashMode | string }): Promise<void>;
   flip(): Promise<void>;

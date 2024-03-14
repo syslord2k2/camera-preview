@@ -227,6 +227,33 @@ public class CameraPreview: CAPPlugin {
         }
     }
 
+    @objc func getSupportedPictureSizes(_ call: CAPPluginCall) {
+        do {
+            let supportPictureSizes = try self.cameraController.getSupportPictureSizes()
+            call.resolve(["result": supportPictureSizes])
+        } catch {
+            call.reject("failed to get supported picture sizes")
+        }
+    }
+
+    @objc func getExposureModes(_ call: CAPPluginCall) {
+        do {
+            let exposureModes = try self.cameraController.getExposureModes()
+            call.resolve(["result": exposureModes])
+        } catch {
+            call.reject("failed to get exposure modes")
+        }
+    }
+
+    @objc func getSupportedWhiteBalanceModes(_ call: CAPPluginCall) {
+        do {
+            let whiteBalanceModes = try self.cameraController.getSupportedWhiteBalanceModes()
+            call.resolve(["result": whiteBalanceModes])
+        } catch {
+            call.reject("failed to get supported white balance modes")
+        }
+    }
+
     @objc func setFlashMode(_ call: CAPPluginCall) {
         guard let flashMode = call.getString("flashMode") else {
             call.reject("failed to set flash mode. required parameter flashMode is missing")
