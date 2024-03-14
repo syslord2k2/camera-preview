@@ -211,6 +211,57 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
     }
 
     @PluginMethod
+    public void getExposureCompensationRange(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+        JSObject jsObject = new JSObject();
+        jsObject.put("min", params.getMinExposureCompensation());
+        jsObject.put("max", params.getMaxExposureCompensation());
+        call.resolve(jsObject);
+    }
+
+    @PluginMethod
+    public void getExposureCompensation(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+        call.resolve(new JSObject().put("value", params.getExposureCompensation()));
+    }
+
+    @PluginMethod
+    public void getExposureMode(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+        call.resolve(new JSObject().put("value", params.getFocusMode()));
+    }
+
+    @Pluginmethod
+    public void getWhiteBalanceMode(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+        call.resolve(new JSObject().put("value", params.getWhiteBalance()));
+    }
+
+    @PluginMethod
     public void getSupportedFlashModes(PluginCall call) {
         if (this.hasCamera(call) == false) {
             call.reject("Camera is not running");

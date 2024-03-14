@@ -91,6 +91,18 @@ var capacitorSplashScreen = (function (exports, core) {
         async getSupportedWhiteBalanceModes() {
             throw this.unimplemented('Not implemented on web.');
         }
+        async getExposureCompenstationRange() {
+            throw this.unimplemented('Not implemented on web.');
+        }
+        async getExposureCompensation() {
+            throw this.unimplemented('Not implemented on web.');
+        }
+        async getExposureMode() {
+            throw this.unimplemented('Not implemented on web.');
+        }
+        async getWhiteBalanceMode() {
+            throw this.unimplemented('Not implemented on web.');
+        }
         async stop() {
             const video = document.getElementById('video');
             if (video) {

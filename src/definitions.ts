@@ -79,6 +79,18 @@ export interface CameraPreviewPlugin {
   getSupportedWhiteBalanceModes(): Promise<{
     result: CameraPreviewWhiteBalanceMode[];
   }>;
+  getExposureCompenstationRange(): Promise<{
+    result: { min: number; max: number };
+  }>;
+  getExposureCompensation(): Promise<{
+    result: number;
+  }>;
+  getExposureMode(): Promise<{
+    result: CameraPreviewExposureMode;
+  }>;
+  getWhiteBalanceMode(): Promise<{
+    result: CameraPreviewWhiteBalanceMode;
+  }>;
   setFlashMode(options: { flashMode: CameraPreviewFlashMode | string }): Promise<void>;
   flip(): Promise<void>;
   setOpacity(options: CameraOpacityOptions): Promise<{}>;

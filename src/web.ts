@@ -120,6 +120,22 @@ export class CameraPreviewWeb extends WebPlugin implements CameraPreviewPlugin {
     throw this.unimplemented('Not implemented on web.');
   }
 
+  async getExposureCompenstationRange(): Promise<{ result: { min: number; max: number; }; }> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
+  async getExposureCompensation(): Promise<{ result: number; }> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
+  async getExposureMode(): Promise<{ result: CameraPreviewExposureMode; }> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
+  async getWhiteBalanceMode(): Promise<{ result: CameraPreviewWhiteBalanceMode; }> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
   async stop(): Promise<any> {
     const video = <HTMLVideoElement>document.getElementById('video');
     if (video) {
