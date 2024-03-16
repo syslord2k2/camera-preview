@@ -91,7 +91,7 @@ var capacitorSplashScreen = (function (exports, core) {
         async getSupportedWhiteBalanceModes() {
             throw this.unimplemented('Not implemented on web.');
         }
-        async getExposureCompenstationRange() {
+        async getExposureCompensationRange() {
             throw this.unimplemented('Not implemented on web.');
         }
         async getExposureCompensation() {

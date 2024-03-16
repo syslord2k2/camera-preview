@@ -120,7 +120,7 @@ export class CameraPreviewWeb extends WebPlugin implements CameraPreviewPlugin {
     throw this.unimplemented('Not implemented on web.');
   }
 
-  async getExposureCompenstationRange(): Promise<{ result: { min: number; max: number; }; }> {
+  async getExposureCompensationRange(): Promise<{ result: { min: number; max: number; }; }> {
     throw this.unimplemented('Not implemented on web.');
   }
 
