@@ -219,10 +219,32 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
 
         Camera camera = fragment.getCamera();
         Camera.Parameters params = camera.getParameters();
+        JSObject result = new JSObject();
+        result.put("min", params.getMinExposureCompensation());
+        result.put("max", params.getMaxExposureCompensation());
         JSObject jsObject = new JSObject();
-        jsObject.put("min", params.getMinExposureCompensation());
-        jsObject.put("max", params.getMaxExposureCompensation());
+        jsObject.put("result", result);
         call.resolve(jsObject);
+    }
+
+    @PluginMethod
+    public void setExposure(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        Integer exposure = call.getInt("exposure");
+        if (exposure == null) {
+            call.reject("exposure required parameter is missing");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+        params.setExposureCompensation(exposure);
+        fragment.setCameraParameters(params);
+        call.resolve();
     }
 
     @PluginMethod
