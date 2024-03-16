@@ -79,7 +79,7 @@ export interface CameraPreviewPlugin {
   getSupportedWhiteBalanceModes(): Promise<{
     result: CameraPreviewWhiteBalanceMode[];
   }>;
-  getExposureCompenstationRange(): Promise<{
+  getExposureCompensationRange(): Promise<{
     result: { min: number; max: number };
   }>;
   getExposureCompensation(): Promise<{

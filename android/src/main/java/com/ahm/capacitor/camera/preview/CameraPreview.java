@@ -249,7 +249,7 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
         call.resolve(new JSObject().put("value", params.getFocusMode()));
     }
 
-    @Pluginmethod
+    @PluginMethod
     public void getWhiteBalanceMode(PluginCall call) {
         if (this.hasCamera(call) == false) {
             call.reject("Camera is not running");
@@ -283,6 +283,36 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
         JSObject jsObject = new JSObject();
         jsObject.put("result", jsonFlashModes);
         call.resolve(jsObject);
+    }
+    
+    @PluginMethod
+    public void setWhiteBalanceMode(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        String whiteBalanceMode = call.getString("whiteBalanceMode");
+        if (whiteBalanceMode == null || whiteBalanceMode.isEmpty() == true) {
+            call.reject("whiteBalanceMode required parameter is missing");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+
+        List<String> supportedWhiteBalanceModes;
+        supportedWhiteBalanceModes = camera.getParameters().getSupportedWhiteBalance();
+        if (supportedWhiteBalanceModes.indexOf(whiteBalanceMode) > -1) {
+            params.setWhiteBalance(whiteBalanceMode);
+        } else {
+            call.reject("White balance mode not recognised: " + whiteBalanceMode);
+            return;
+        }
+
+        fragment.setCameraParameters(params);
+
+        call.resolve();
     }
 
     @PluginMethod
