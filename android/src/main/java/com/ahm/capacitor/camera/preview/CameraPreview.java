@@ -248,6 +248,36 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
     }
 
     @PluginMethod
+    public void setExposureMode(PluginCall call) {
+        if (this.hasCamera(call) == false) {
+            call.reject("Camera is not running");
+            return;
+        }
+
+        String exposureMode = call.getString("exposureMode");
+        if (exposureMode == null || exposureMode.isEmpty() == true) {
+            call.reject("exposureMode required parameter is missing");
+            return;
+        }
+
+        Camera camera = fragment.getCamera();
+        Camera.Parameters params = camera.getParameters();
+
+        List<String> supportedExposureModes;
+        supportedExposureModes = camera.getParameters().getSupportedFocusModes();
+        if (supportedExposureModes.indexOf(exposureMode) > -1) {
+            params.setFocusMode(exposureMode);
+        } else {
+            call.reject("Exposure mode not recognised: " + exposureMode);
+            return;
+        }
+
+        fragment.setCameraParameters(params);
+
+        call.resolve();
+    }
+
+    @PluginMethod
     public void getExposureCompensation(PluginCall call) {
         if (this.hasCamera(call) == false) {
             call.reject("Camera is not running");
