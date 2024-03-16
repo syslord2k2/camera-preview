@@ -228,13 +228,13 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
     }
 
     @PluginMethod
-    public void setExposure(PluginCall call) {
+    public void setExposureCompensation(PluginCall call) {
         if (this.hasCamera(call) == false) {
             call.reject("Camera is not running");
             return;
         }
 
-        Integer exposure = call.getInt("exposure");
+        Integer exposure = call.getInt("exposureCompensation");
         if (exposure == null) {
             call.reject("exposure required parameter is missing");
             return;
