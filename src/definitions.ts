@@ -92,6 +92,9 @@ export interface CameraPreviewPlugin {
     result: CameraPreviewWhiteBalanceMode;
   }>;
   setFlashMode(options: { flashMode: CameraPreviewFlashMode | string }): Promise<void>;
+  setExposureMode(options: { exposureMode: CameraPreviewExposureMode | string }): Promise<void>;
+  setExposureCompensation(options: { exposureCompensation: number }): Promise<void>;
+  setWhiteBalanceMode(options: { whiteBalanceMode: CameraPreviewWhiteBalanceMode | string }): Promise<void>;
   flip(): Promise<void>;
   setOpacity(options: CameraOpacityOptions): Promise<{}>;
 }

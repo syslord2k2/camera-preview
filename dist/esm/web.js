@@ -94,6 +94,15 @@ export class CameraPreviewWeb extends WebPlugin {
     async getExposureMode() {
         throw this.unimplemented('Not implemented on web.');
     }
+    async setExposureMode(_options) {
+        throw this.unimplemented('Not implemented on web.');
+    }
+    async setExposureCompensation(_options) {
+        throw this.unimplemented('Not implemented on web.');
+    }
+    async setWhiteBalanceMode(_options) {
+        throw this.unimplemented('Not implemented on web.');
+    }
     async getWhiteBalanceMode() {
         throw this.unimplemented('Not implemented on web.');
     }

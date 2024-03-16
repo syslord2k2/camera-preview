@@ -34,6 +34,15 @@ export declare class CameraPreviewWeb extends WebPlugin implements CameraPreview
     getExposureMode(): Promise<{
         result: CameraPreviewExposureMode;
     }>;
+    setExposureMode(_options: {
+        exposureMode: CameraPreviewExposureMode | string;
+    }): Promise<void>;
+    setExposureCompensation(_options: {
+        exposureCompensation: number;
+    }): Promise<void>;
+    setWhiteBalanceMode(_options: {
+        whiteBalanceMode: CameraPreviewWhiteBalanceMode | string;
+    }): Promise<void>;
     getWhiteBalanceMode(): Promise<{
         result: CameraPreviewWhiteBalanceMode;
     }>;
