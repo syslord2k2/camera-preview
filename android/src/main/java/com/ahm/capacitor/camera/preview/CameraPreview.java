@@ -199,10 +199,9 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
         exposureModes = params.getSupportedFocusModes();
         JSONArray jsonExposureModes = new JSONArray();
 
-        if (exposureModes != null) {
-            for (int i = 0; i < exposureModes.size(); i++) {
-                jsonExposureModes.put(new String(exposureModes.get(i)));
-            }
+        if (camera.getParameters().isAutoExposureLockSupported()) {
+            jsonExposureModes.put("lock");
+            jsonExposureModes.put("continuous");
         }
 
         JSObject jsObject = new JSObject();
@@ -265,8 +264,8 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
 
         List<String> supportedExposureModes;
         supportedExposureModes = camera.getParameters().getSupportedFocusModes();
-        if (supportedExposureModes.indexOf(exposureMode) > -1) {
-            params.setFocusMode(exposureMode);
+        if (camera.getParameters().isAutoExposureLockSupported()) {
+            params.setAutoExposureLock(exposureMode.equals("lock"));
         } else {
             call.reject("Exposure mode not recognised: " + exposureMode);
             return;
@@ -286,6 +285,9 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
 
         Camera camera = fragment.getCamera();
         Camera.Parameters params = camera.getParameters();
+
+
+
         call.resolve(new JSObject().put("value", params.getExposureCompensation()));
     }
 
@@ -298,7 +300,12 @@ public class CameraPreview extends Plugin implements CameraActivity.CameraPrevie
 
         Camera camera = fragment.getCamera();
         Camera.Parameters params = camera.getParameters();
-        call.resolve(new JSObject().put("value", params.getFocusMode()));
+
+        if (camera.getParameters().isAutoExposureLockSupported()) {
+            call.resolve(new JSObject().put("value", params.getAutoExposureLock()) ? "lock" : "continuous");
+        } else {
+            call.reject("Exposure mode not supported");
+        }
     }
 
     @PluginMethod
