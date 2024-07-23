@@ -165,5 +165,11 @@ export class CameraPreviewWeb extends WebPlugin {
             video.style.setProperty('opacity', _options['opacity'].toString());
         }
     }
+    async checkPermissions() {
+        throw new Error('checkPermissions not supported under the web platform');
+    }
+    async requestPermissions() {
+        throw new Error('requestPermissions not supported under the web platform');
+    }
 }
 //# sourceMappingURL=web.js.map

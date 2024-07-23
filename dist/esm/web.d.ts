@@ -57,4 +57,6 @@ export declare class CameraPreviewWeb extends WebPlugin implements CameraPreview
     }): Promise<void>;
     flip(): Promise<void>;
     setOpacity(_options: CameraOpacityOptions): Promise<any>;
+    checkPermissions(): Promise<PermissionState>;
+    requestPermissions(): Promise<PermissionState>;
 }
