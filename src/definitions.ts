@@ -1,3 +1,5 @@
+import type { PermissionState } from '@capacitor/core';
+
 export type CameraPosition = 'rear' | 'front';
 export type CameraPreviewExposureMode = 'lock' | 'auto' | 'continuous' | 'custom';
 export type CameraPreviewWhiteBalanceMode = 'lock' | 'auto'  | 'continuous' | 'incandescent' | 'cloudy-daylight' | 'daylight' | 'fluorescent' | 'shade' | 'twilight' | 'warm-fluorescent';
@@ -34,17 +36,18 @@ export interface CameraPreviewOptions {
   lockAndroidOrientation?: boolean;
   /** Defaults to false - Android and Web only.  Set if camera preview can change opacity. */
   enableOpacity?: boolean;
-  /** Defaults to false - Android only.  Set if camera preview will support pinch to zoom. */
+  /** Defaults to false - Android and iOS only.  Set if camera preview will support pinch to zoom. */
   enableZoom?: boolean;
 }
 export interface CameraPreviewPictureOptions {
-  /** The picture height, optional, default 0 (Device default) */
+  /** The picture height, respecting the default aspect ratio of the device - Android only */
   height?: number;
-  /** The picture width, optional, default 0 (Device default) */
+  /** The picture width, respecting the default aspect ratio of the device - Android only */
   width?: number;
-  /** The picture quality, 0 - 100, default 85 on `iOS/Android`.
-   *
-   * If left undefined, the `web` implementation will export a PNG, otherwise a JPEG will be generated */
+  /**
+   * The picture quality, 0 - 100, default 85 on `iOS/Android`.
+   * If left undefined, the `web` implementation will export a PNG, otherwise a JPEG will be generated
+   */
   quality?: number;
 }
 
@@ -61,11 +64,13 @@ export interface CameraOpacityOptions {
 }
 
 export interface CameraPreviewPlugin {
+  /** Starts the camera preview instance */
   start(options: CameraPreviewOptions): Promise<{}>;
-  startRecordVideo(options: CameraPreviewOptions): Promise<{}>;
+  /** Stops the camera preview instance */
   stop(): Promise<{}>;
-  stopRecordVideo(): Promise<{}>;
+  /** Captures a picture from the camera preview */
   capture(options: CameraPreviewPictureOptions): Promise<{ value: string }>;
+  /** Captures a sample image from the video stream - Android / iOS only */
   captureSample(options: CameraSampleOptions): Promise<{ value: string }>;
   getSupportedFlashModes(): Promise<{
     result: CameraPreviewFlashMode[];
@@ -95,6 +100,20 @@ export interface CameraPreviewPlugin {
   setExposureMode(options: { exposureMode: CameraPreviewExposureMode | string }): Promise<void>;
   setExposureCompensation(options: { exposureCompensation: number }): Promise<void>;
   setWhiteBalanceMode(options: { whiteBalanceMode: CameraPreviewWhiteBalanceMode | string }): Promise<void>;
+  /** Get the flash modes supported by the camera device currently started */
+  getSupportedFlashModes(): Promise<{ result: CameraPreviewFlashMode[] }>;
+  /** Set the flash mode */
+  setFlashMode(options: { flashMode: CameraPreviewFlashMode | string }): Promise<void>;
+  /** Switch between rear and front camera - Android / iOS only */
   flip(): Promise<void>;
+  /** Changes the opacity of the shown camera preview - Android / Web only */
   setOpacity(options: CameraOpacityOptions): Promise<{}>;
+  /** Start recording a video from the current camera preview - Android only */
+  startRecordVideo(options: CameraPreviewOptions): Promise<{}>;
+  /** Stop recording a video from the current camera preview - Android only */
+  stopRecordVideo(): Promise<{}>;
+  /** Check camera permission */
+  checkPermissions(): Promise<PermissionState>;
+  /** Request camera permission */
+  requestPermissions(): Promise<PermissionState>;
 }
