@@ -155,24 +155,27 @@ public class CameraPreview: CAPPlugin {
     }
 
     @objc func getSupportedPictureSizes(_ call: CAPPluginCall) {
+        NSLog("getSupportedPictureSizes")
         do {
-            let supportedPictureSizes = try self.cameraController.getSupportedPictureSizes()
+            let supportedPictureSizes = self.cameraController.getSupportedPictureSizes()
             call.resolve(["result": supportedPictureSizes])
         } catch {
             call.reject("failed to get supported picture sizes")
         }
     }
 
-    @objc func getExposureCompensation(_call: CAPPluginCall) {
+    @objc func getExposureCompensation(_ call: CAPPluginCall) {
+        NSLog("getExposureCompensation")
         do {
-            let exposureCompensation = try self.cameraController.getExposureCompensation()
+            let exposureCompensation = self.cameraController.getExposureCompensation()
             call.resolve(["result": exposureCompensation])
         } catch {
             call.reject("failed to get exposure compensation")
         }
     }
 
-    @objc func getExposureCompensationRange(_call: CAPPluginCall) {
+    @objc func getExposureCompensationRange(_ call: CAPPluginCall) {
+        NSLog("getExposureCompensationRange")
         do {
             let exposureCompensationRange = try self.cameraController.getExposureCompensationRange()
             call.resolve(["result": exposureCompensationRange])
@@ -181,7 +184,8 @@ public class CameraPreview: CAPPlugin {
         }
     }
 
-    @objc func getExposureMode(_call: CAPPluginCall) {
+    @objc func getExposureMode(_ call: CAPPluginCall) {
+        NSLog("getExposureMode")
         do {
             let exposureMode = try self.cameraController.getExposureMode()
             call.resolve(["result": exposureMode])
@@ -190,7 +194,8 @@ public class CameraPreview: CAPPlugin {
         }
     }
 
-    @objc func getWhiteBalanceMode(_call: CAPPluginCall) {
+    @objc func getWhiteBalanceMode(_ call: CAPPluginCall) {
+        NSLog("getWhiteBalanceMode")
         do {
             let whiteBalanceMode = try self.cameraController.getWhiteBalanceMode()
             call.resolve(["result": whiteBalanceMode])
@@ -199,7 +204,8 @@ public class CameraPreview: CAPPlugin {
         }
     }
 
-    @objc func getSupportedWhiteBalanceModes(_call: CAPPluginCall) {
+    @objc func getSupportedWhiteBalanceModes(_ call: CAPPluginCall) {
+        NSLog("getSupportedWhiteBalanceModes")
         do {
             let iso = try self.cameraController.getSupportedWhiteBalanceModes()
             call.resolve(["result": iso])
@@ -212,6 +218,7 @@ public class CameraPreview: CAPPlugin {
      Return an array of supported flash modes of the currently active capture device
      */
     @objc func getSupportedFlashModes(_ call: CAPPluginCall) {
+        NSLog("getSupportedFlashModes")
         do {
             let supportedFlashModes = try self.cameraController.getSupportedFlashModes()
             call.resolve(["result": supportedFlashModes])
@@ -220,10 +227,19 @@ public class CameraPreview: CAPPlugin {
         }
     }
     
+    @objc func setExposureMode(_ call: CAPPluginCall) {
+        NSLog("Setting Exposure Mode")
+        guard let exposureMode = call.getString("exposureMode") else {
+            call.reject("failed to set exposure mode. required parameter exposureMode is missing")
+            return;
+        }
+    }
+    
     /**
      Set the flash mode for the currently active capture device
      */
     @objc func setFlashMode(_ call: CAPPluginCall) {
+        NSLog("Setting flashmode")
         guard let flashMode = call.getString("flashMode") else {
             call.reject("failed to set flash mode. required parameter flashMode is missing")
             return

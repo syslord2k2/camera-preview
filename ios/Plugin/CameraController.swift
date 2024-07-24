@@ -291,10 +291,10 @@ class CameraController: NSObject {
 
     func getSupportedPictureSizes() -> [[String: Any]] {
         guard let device = self.currentCamera else { return [] }
-        return device.activeFormat.supportedSizes.map { size in
+        return device.formats.map { size in
             return [
-                "width": size.width,
-                "height": size.height
+                "width": size.highResolutionStillImageDimensions.width,
+                "height": size.highResolutionStillImageDimensions.height
             ]
         }
     }
@@ -311,17 +311,49 @@ class CameraController: NSObject {
 
     func getExposureMode() -> String {
         guard let device = self.currentCamera else { return "unknown" }
-        return device.exposureMode.rawValue
+        switch (device.exposureMode) {
+        case AVCaptureDevice.ExposureMode.autoExpose:
+            return "auto"
+        case AVCaptureDevice.ExposureMode.continuousAutoExposure:
+            return "continuous"
+        case AVCaptureDevice.ExposureMode.custom:
+            return "custom"
+        case AVCaptureDevice.ExposureMode.locked:
+            return "lock"
+        @unknown default:
+            return "unknown"
+        }
     }
 
     func getWhiteBalanceMode() -> String {
         guard let device = self.currentCamera else { return "unknown" }
-        return device.whiteBalanceMode.rawValue
+        switch(device.whiteBalanceMode) {
+        case AVCaptureDevice.WhiteBalanceMode.autoWhiteBalance:
+            return "auto"
+        case AVCaptureDevice.WhiteBalanceMode.continuousAutoWhiteBalance:
+            return "continuous"
+        case AVCaptureDevice.WhiteBalanceMode.locked:
+            return "lock"
+        @unknown default:
+            return "unknown"
+        }
     }
 
     func getSupportedWhiteBalanceModes() -> [String] {
         guard let device = self.currentCamera else { return [] }
-        return device.supportedWhiteBalanceModes.map { $0.rawValue }
+        var whiteBalanceModes = [String]()
+        
+        if (device.isWhiteBalanceModeSupported(AVCaptureDevice.WhiteBalanceMode.autoWhiteBalance)) {
+            whiteBalanceModes.append("auto")
+        }
+        if (device.isWhiteBalanceModeSupported(AVCaptureDevice.WhiteBalanceMode.continuousAutoWhiteBalance)) {
+            whiteBalanceModes.append("continuous")
+        }
+        if (device.isWhiteBalanceModeSupported(AVCaptureDevice.WhiteBalanceMode.locked)) {
+            whiteBalanceModes.append("lock")
+        }
+        
+        return whiteBalanceModes;
     }
 
 
