@@ -153,6 +153,60 @@ public class CameraPreview: CAPPlugin {
             }
         }
     }
+
+    @objc func getSupportedPictureSizes(_ call: CAPPluginCall) {
+        do {
+            let supportedPictureSizes = try self.cameraController.getSupportedPictureSizes()
+            call.resolve(["result": supportedPictureSizes])
+        } catch {
+            call.reject("failed to get supported picture sizes")
+        }
+    }
+
+    @objc func getExposureCompensation(_call: CAPPluginCall) {
+        do {
+            let exposureCompensation = try self.cameraController.getExposureCompensation()
+            call.resolve(["result": exposureCompensation])
+        } catch {
+            call.reject("failed to get exposure compensation")
+        }
+    }
+
+    @objc func getExposureCompensationRange(_call: CAPPluginCall) {
+        do {
+            let exposureCompensationRange = try self.cameraController.getExposureCompensationRange()
+            call.resolve(["result": exposureCompensationRange])
+        } catch {
+            call.reject("failed to get exposure compensation range")
+        }
+    }
+
+    @objc func getExposureMode(_call: CAPPluginCall) {
+        do {
+            let exposureMode = try self.cameraController.getExposureMode()
+            call.resolve(["result": exposureMode])
+        } catch {
+            call.reject("failed to get exposure mode")
+        }
+    }
+
+    @objc func getWhiteBalanceMode(_call: CAPPluginCall) {
+        do {
+            let whiteBalanceMode = try self.cameraController.getWhiteBalanceMode()
+            call.resolve(["result": whiteBalanceMode])
+        } catch {
+            call.reject("failed to get white balance mode")
+        }
+    }
+
+    @objc func getSupportedWhiteBalanceModes(_call: CAPPluginCall) {
+        do {
+            let iso = try self.cameraController.getSupportedWhiteBalanceModes()
+            call.resolve(["result": iso])
+        } catch {
+            call.reject("failed to get iso")
+        }
+    }
     
     /**
      Return an array of supported flash modes of the currently active capture device

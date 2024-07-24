@@ -289,6 +289,42 @@ class CameraController: NSObject {
         self.sampleBufferCaptureCompletionBlock = completion
     }
 
+    func getSupportedPictureSizes() -> [[String: Any]] {
+        guard let device = self.currentCamera else { return [] }
+        return device.activeFormat.supportedSizes.map { size in
+            return [
+                "width": size.width,
+                "height": size.height
+            ]
+        }
+    }
+
+    func getExposureCompensation() -> Float {
+        guard let device = self.currentCamera else { return 0 }
+        return device.exposureTargetBias
+    }
+
+    func getExposureCompensationRange() -> [Float] {
+        guard let device = self.currentCamera else { return [0, 0] }
+        return [device.minExposureTargetBias, device.maxExposureTargetBias]
+    }
+
+    func getExposureMode() -> String {
+        guard let device = self.currentCamera else { return "unknown" }
+        return device.exposureMode.rawValue
+    }
+
+    func getWhiteBalanceMode() -> String {
+        guard let device = self.currentCamera else { return "unknown" }
+        return device.whiteBalanceMode.rawValue
+    }
+
+    func getSupportedWhiteBalanceModes() -> [String] {
+        guard let device = self.currentCamera else { return [] }
+        return device.supportedWhiteBalanceModes.map { $0.rawValue }
+    }
+
+
     func getSupportedFlashModes() throws -> [String] {
         guard let device = self.currentCamera else { throw CameraControllerError.noCamerasAvailable }
 
